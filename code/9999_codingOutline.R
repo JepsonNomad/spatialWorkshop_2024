@@ -77,8 +77,8 @@ ggplot() +
               aes(x = x, y = y, fill = hillshade),
               show.legend = FALSE) +
   scale_fill_distiller(type = "seq",
-                        direction = -1,
-                        palette = "Greys") +
+                       direction = -1,
+                       palette = "Greys") +
   geom_sf(data = moo_latlon,
           fill = "transparent",
           col = "grey60",
