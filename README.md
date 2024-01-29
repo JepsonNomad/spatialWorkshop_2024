@@ -1,6 +1,9 @@
 # 2024 Spatial Workshop
 
-This is a home page for the January 2024 Spatial Bonanza! Consider using the directory structure of this workshop folder to keep track of your data and code. I'd recommend using R Studio and making an R project. Please note: you will need recent installations of sf, terra, and tidyverse
+This is a home page for the January 2024 Spatial Bonanza! Consider using the directory structure of this workshop folder to keep track of your data and code. I'd recommend using R Studio and making an R project. Please note: you will need recent installations of `sf`, `terra`, and `tidyverse`.
+
+(Follow along with the live code here)<https://github.com/JepsonNomad/spatialWorkshop_2024/blob/main/code/000_livecode.R>
+
 
 ## Workshop goals:
 
