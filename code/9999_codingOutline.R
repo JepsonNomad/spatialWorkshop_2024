@@ -1,6 +1,9 @@
+#### Load packages ----
+
 library(sf)
 library(terra)
 library(ggplot2)
+
 
 #### Resources ----
 ## > The following are some useful web resources ----
@@ -103,6 +106,3 @@ ggplot() +
                  y = y,
                  label = site)) +
   theme_void()
-
-
-# Change the line
