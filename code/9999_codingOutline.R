@@ -2,6 +2,18 @@ library(sf)
 library(terra)
 library(ggplot2)
 
+#### Resources ----
+## > The following are some useful web resources ----
+
+# Check out the sf cheatsheet from rstudio github
+# https://github.com/rstudio/cheatsheets/blob/main/sf.pdf
+
+# Visit sf and terra documentation
+# https://cran.r-project.org/web/packages/sf/sf.pdf
+# https://cran.r-project.org/web/packages/terra/terra.pdf
+
+
+
 #### Part 0: Data prep ----
 ## > Vector data ----
 ## Note that the Moorea vector data came from the French Polynesia Directorate of Land Affairs
@@ -20,6 +32,7 @@ mcr = data.frame(x = c(-149.837, -149.803, -149.763,
   st_as_sf(coords = c("x","y"),
            crs = 4326)
 plot(mcr)
+
 
 ## > Raster data ----
 ## Note that the Moorea hillshade layer came from the Copernicus mapping mission
