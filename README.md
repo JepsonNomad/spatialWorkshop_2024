@@ -8,20 +8,20 @@ This is a home page for the January 2024 Spatial Bonanza! Consider using the dir
 ## Workshop goals:
 
 In this workshop, we will:
--Get acquainted "spatial data": What is spatial data? What isn't spatial data?
--Differentiate raster and vector data structures
--Get ahold of some spatial data
--Inspect spatial datasets
--Plot spatial data (i.e. make a map!)
+- Get acquainted "spatial data": What is spatial data? What isn't spatial data?
+- Differentiate raster and vector data structures
+- Get ahold of some spatial data
+- Inspect spatial datasets
+- Plot spatial data (i.e. make a map!)
 
 ## Timeline (total 60 min):
 ### Intro (15 min)
 3 min get situated. Does everyone have packages installed?
 10 min slideshow on:
--Spatial data
--Raster vs vector
--Reference systems
--Where can I get data from?
+- Spatial data
+- Raster vs vector
+- Reference systems
+- Where can I get data from?
 2 min questions
 
 ### Import data (5 min)
@@ -39,16 +39,16 @@ Remember to ask: Do the reference systems of the two objects correspond?
 
 ### Tinkering with datasets (20 min)
 Vector data:
--`filter()`
--`st_intersection()`
+- `filter()`
+- `st_intersection()`
 
 Raster data:
--raster algebra
--summary statistics
+- raster algebra
+- summary statistics
 
 
 ### Combine different data types (map) (10 min)
--`st_transform()` - recall the CRS discrepancy earlier!
--`ggplot()` to lay the base
--including theme_void()
--combining calls to `geom_sf()` and `geom_raster()`
+- `st_transform()` - recall the CRS discrepancy earlier!
+- `ggplot()` to lay the base
+- including theme_void()
+- combining calls to `geom_sf()` and `geom_raster()`
