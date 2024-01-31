@@ -53,4 +53,14 @@ ggplot() +
   geom_sf(data = moo)
 
 
+#### Working with rasters ----
+hill
+hill_df = as.data.frame(hill, xy=T)
+head(hill_df)
+
+mycrs = st_crs(hill)
+
+moo_lonlat = moo %>%
+  st_transform(crs = mycrs)
+
 
