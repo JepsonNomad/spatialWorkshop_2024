@@ -87,14 +87,17 @@ st_crs(sst)
 ## https://www.data.gouv.fr/fr/datasets/base-de-donnees-cartographique-vectorielle/
 moo = read_sf("data/moorea_outline.shp")
 moo
-plot(moo[1])
+plot(moo)
+
 
 ## .... Vector data: Points ----
 ## Walk people through how to make this; starting with data.frame
 ## And then add coordinates and reference system
 ## Import field site locations
 fieldSites_df = read_csv("data/fieldSiteLocations.csv")
-## Convert them into an sf object
+fieldSites_df
+## Convert sites df into an sf object using st_as_sf()
+?st_as_sf
 ## What two things do we need to tell sf? 
 fieldSites_sf = fieldSites_df %>%
   st_as_sf(coords = c("x","y"),
@@ -107,6 +110,7 @@ plot(fieldSites_sf)
 ## Note that when you look at moo:
 ## there is a geometry column! This stores the important spatial stuff. Everything else is just summary info
 moo
+## But also note, moo looks suspiciously like a data.frame()
 st_crs(moo) # Note that epsg 3297 is UTM 6S
 plot(moo)
 ggplot() + geom_sf(data = moo)
@@ -121,6 +125,7 @@ st_crs(hill)
 plot(hill)
 hill_df = as.data.frame(hill, xy = T)
 head(hill_df)
+
 
 
 #### Part 3: Spatial data tinkering ----
@@ -160,6 +165,7 @@ surveys_sf %>%
           aes(col = cots)) +
   scale_color_viridis_c()
 
+
 ## .... Raster data ----
 ## First, some raster algebra
 dem
@@ -173,22 +179,26 @@ plot(dem*2)
 global(dem, fun = "min", na.rm = T)
 global(dem, fun = "mean", na.rm = T)
 global(dem, fun = "max", na.rm = T)
-# or custom functions
+
+
+## Skippable! Skip/
+# Can also make custom functions
 global(dem, fun = function(x){quantile(x,0.2,na.rm=T)})
 lowEls = global(dem, fun = function(x){sum(x<200,na.rm=T)})
 highEls = global(dem, fun = function(x){sum(x>=200,na.rm=T)})
 lowEls/(lowEls+highEls)
 ## 61% of island is below 200m
 
-
 ## .... Challenge: Raster math with the sst data ----
 ## Can you convert the sst raster from Celcius to Farenheit?
 ## Plot the result.
 ## If you have time, find the minimum, maximum, and 
 ## mean sea surface temperatures in the greater Moorea area
+## /Skip
 
 
 #### Part 3b: Interoperability ----
+## Skippable! Skip/
 ## Convert sf objects with vect() to work with rasters
 ## Convert terra objects with as.data.frame() to work with ggplot
 ## Always remember to pay attention to crs at this critical step
@@ -207,6 +217,8 @@ fieldSites_sf %>%
   mutate(sst = fieldSites_temps$sst) %>%
   ggplot() +
   geom_point(aes(x = site, y = sst))
+## /Skip
+
 
 #### Part 4: Putting it all together: Make a map! ----
 ## .... Discussion: what makes a good map? ----
