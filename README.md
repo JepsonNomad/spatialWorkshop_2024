@@ -43,8 +43,8 @@ Vector data:
 - Possibility: `st_intersection()`
 
 Raster data:
-- raster algebra
-- summary statistics
+- Raster algebra
+- Summary statistics using `terra::global()`
 
 
 ### Combine different data types (map) (10 min)

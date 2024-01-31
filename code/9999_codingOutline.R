@@ -132,11 +132,17 @@ surveys_sf %>%
 
 #### Tinkering with raster data ----
 dem = rast("data/dem.tif")
-dem
-plot(dem)
-global(dem, fun = "min", na.rm = T)
-?global
+dem*2
 
+plot(dem)
+
+?global
+# General summary values
+global(dem, fun = "min", na.rm = T)
+global(dem, fun = "mean", na.rm = T)
+global(dem, fun = "max", na.rm = T)
+# or custom functions
+global(dem, fun = function(x){quantile(x,0.2,na.rm=T)})
 
 
 #### Putting it all together: Make a map! ----
