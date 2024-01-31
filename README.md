@@ -23,7 +23,8 @@ In this workshop, we will:
 - Raster vs vector
 - Reference systems
 - Where can I get data from?
-2 min questions
+
+2 min for questions
 
 ### Import data (5 min)
 `terra::rast()` and `sf::read_sf()`... sometimes additional import functions such as in `rnaturalearth::ne_countries()`.
