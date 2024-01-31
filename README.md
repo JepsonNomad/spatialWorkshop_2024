@@ -14,6 +14,7 @@ In this workshop, we will:
 - Inspect spatial datasets
 - Plot spatial data (i.e. make a map!)
 
+
 ## Timeline (total 60 min):
 ### Intro (15 min)
 3 min get situated. Does everyone have packages installed?
@@ -32,15 +33,14 @@ In this workshop, we will:
 #### Explore data structure
 `str()`, `print()`, `st_crs()`
 #### Plot data 
-Combining with the tidyverse and `ggplot()`, can do this with pipes if we're feeling up to it.
-
-Remember to ask: Do the reference systems of the two objects correspond?
+Combining with the tidyverse and `ggplot()`, can do this with pipes if we're feeling up to it. Remember to ask: Do the reference systems of the two objects correspond?
 
 
 ### Tinkering with datasets (20 min)
 Vector data:
-- `filter()`
-- `st_intersection()`
+- Spatializing field notes with `dplyr::left_join()`
+- Subsetting datasets using `dplyr::filter()`
+- Possibility: `st_intersection()`
 
 Raster data:
 - raster algebra
