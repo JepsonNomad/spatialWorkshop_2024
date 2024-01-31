@@ -49,34 +49,6 @@ library(tidyverse)
 
 
 #### Part I: Importing spatial data ----
-## .... Raster data ----
-
-## Raster data are pretty much only ever .tif files
-## (yes there are exceptions but the following pattern holds generally true)
-
-## Note that the Moorea hillshade layer came from the Copernicus mapping mission
-## Dataset was prepped and exported from Google Earth Engine
-hill = rast("data/hillshade.tif")
-hill
-str(hill)
-plot(hill)
-st_crs(hill)
-# "EPSG",4326
-
-dem = rast("data/dem.tif")
-
-
-## Median sea surface temperature Jan-Mar, 2015-2020 inclusive 
-## MODIS Aqua L3SMI from NASA Goddard via Google Earth Engine
-sst = rast("data/MODmed.tif")
-sst
-str(sst)
-plot(sst)
-st_crs(sst)
-# "EPSG",3297
-
-
-
 ## .... Vector data: Polygons ----
 
 ## Two common formats you find vector data:
@@ -105,6 +77,33 @@ fieldSites_sf = fieldSites_df %>%
 plot(fieldSites_sf)
 
 
+## .... Raster data ----
+
+## Raster data are pretty much only ever .tif files
+## (yes there are exceptions but the following pattern holds generally true)
+## We will play with 3.
+
+## The Moorea DEM and hillshade layers came from the Copernicus 
+## mapping mission. Datasets were prepped and exported from 
+## Google Earth Engine.
+dem = rast("data/dem.tif")
+hill = rast("data/hillshade.tif")
+hill
+str(hill)
+plot(hill)
+st_crs(hill)
+# "EPSG",4326
+
+## Median sea surface temperature Jan-Mar, 2015-2020 inclusive 
+## MODIS Aqua L3SMI from NASA Goddard via Google Earth Engine
+sst = rast("data/MODmed.tif")
+sst
+str(sst)
+plot(sst)
+st_crs(sst)
+# "EPSG",3297
+
+
 #### Part II: Take a peek under the hood ----
 ## .... Vector data: polygons ----
 ## Note that when you look at moo:
@@ -118,6 +117,21 @@ ggplot() + geom_sf(data = moo)
 ## .... Vector data: points ----
 fieldSites_sf
 str(fieldSites_sf)
+st_crs(fieldSites_sf)
+
+## Plot these together and notice that changing the crs changes the "shape"
+## Which is "right"?
+ggplot() + 
+  geom_sf(data = moo) + 
+  geom_sf(data = fieldSites_sf) +
+  coord_sf(crs = 3297) +
+  ggtitle("UTM")
+ggplot() + 
+  geom_sf(data = moo) + 
+  geom_sf(data = fieldSites_sf) +
+  coord_sf(crs = 4326) +
+  ggtitle("Long/Lat")
+
 
 ## .... Raster data ----
 hill

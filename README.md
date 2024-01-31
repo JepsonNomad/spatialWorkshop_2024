@@ -38,6 +38,7 @@ In this workshop, we will:
 #### Plot data 
 Combining with the tidyverse and `ggplot()`, can do this with pipes if we're feeling up to it. Remember to ask: Do the reference systems of the two objects correspond?
 
+
 ### Tinkering with datasets (20 min)
 Vector data:
 - Spatializing field notes with `dplyr::left_join()`
