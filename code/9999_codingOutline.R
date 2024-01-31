@@ -6,7 +6,7 @@ library(tidyverse)
 
 
 #### Resources ----
-## > The following are some useful web resources ----
+## .... The following are some useful web resources ----
 
 # Check out the sf cheatsheet from rstudio github
 # https://github.com/rstudio/cheatsheets/blob/main/sf.pdf
@@ -18,14 +18,24 @@ library(tidyverse)
 
 
 #### Part 0: Data prep ----
-## > Vector data ----
+## .... Vector data ----
 ## Note that the Moorea vector data came from the French Polynesia Directorate of Land Affairs
 ## https://www.data.gouv.fr/fr/datasets/base-de-donnees-cartographique-vectorielle/
 # read_sf("/Users/christianjohn/Documents/Burkepile_Lab/Data/France_gov/Vector_data/SHP/Moorea/Moorea_20200512_104135_SHP/Moorea_LOC_ILE.shp") %>%
 #   st_simplify(preserveTopology = T, dTolerance = 10) %>%
 #   st_write("data/moorea_outline.shp", append = F)
 
-## > Raster data ----
+## Create a field site dataset as a data.frame
+## Note that these locations are invented and should not be used for MCR analyses!!!
+# fieldSites_df = data.frame(x = c(-149.837, -149.803, -149.763, 
+#                                  -149.768, -149.864, -149.919),
+#                            y = c(-17.480, -17.476, -17.506,
+#                                  -17.539, -17.583, -17.514),
+#                            site = c("Alpha","Bravo","Charlie","Delta","Echo","Foxtrot"))
+# fieldSites_df
+# write_csv(fieldSites_df,file="data/fieldSiteLocations.csv")
+
+## .... Raster data ----
 ## Note that the Moorea hillshade layer came from the Copernicus mapping mission
 ## Dataset was prepped and exported from Google Earth Engine
 ## This is a 30-m product
@@ -39,7 +49,11 @@ library(tidyverse)
 
 
 #### Part I: Importing spatial data ----
-## > Raster data ----
+## .... Raster data ----
+
+## Raster data are pretty much only ever .tif files
+## (yes there are exceptions but the following pattern holds generally true)
+
 ## Note that the Moorea hillshade layer came from the Copernicus mapping mission
 ## Dataset was prepped and exported from Google Earth Engine
 hill = rast("data/hillshade.tif")
@@ -49,32 +63,43 @@ plot(hill)
 st_crs(hill)
 # "EPSG",4326
 
-## > Vector data: Polygons ----
+## Median sea surface temperature from first 90 
+## days across years 2015-2020 from MODIS Aqua
+## via Google Earth Engine
+sst = rast("data/MODmed.tif")
+sst
+plot(sst)
+st_crs(sst)
+# "EPSG",3297
+
+
+## .... Vector data: Polygons ----
+
+## Two common formats you find vector data:
+# -shapefiles
+# -csv files with lat/long or other coords
+
 ## Note that the Moorea vector data came from the French Polynesia Directorate of Land Affairs
 ## https://www.data.gouv.fr/fr/datasets/base-de-donnees-cartographique-vectorielle/
 moo = read_sf("data/moorea_outline.shp")
 moo
 plot(moo[1])
 
-## > Vector data: Points ----
-## This time we create a spatial dataset using a data.frame
-## MCR sites: Walk people through how to make this; start with data.frame
+## .... Vector data: Points ----
+## Walk people through how to make this; starting with data.frame
 ## And then add coordinates and reference system
-## Note that these locations are approximate and should not be used for MCR analyses!!!
-mcr_df = data.frame(x = c(-149.837, -149.803, -149.763, 
-                          -149.768, -149.864, -149.919),
-                    y = c(-17.480, -17.476, -17.506,
-                          -17.539, -17.583, -17.514),
-                    site = c("Alpha","Bravo","Charlie","Delta","Echo","Foxtrot"))
-mcr_df
-mcr_sf = mcr_df %>%
+## Import field site locations
+fieldSites_df = read_csv("data/fieldSiteLocations.csv")
+## Convert them into an sf object
+## What two things do we need to tell sf? 
+fieldSites_sf = fieldSites_df %>%
   st_as_sf(coords = c("x","y"),
            crs = 4326)
-plot(mcr_sf)
+plot(fieldSites_sf)
 
 
 #### Part II: Take a peek under the hood ----
-## > Vector data: polygons ----
+## .... Vector data: polygons ----
 ## Note that when you look at moo:
 ## there is a geometry column! This stores the important spatial stuff. Everything else is just summary info
 moo
@@ -82,12 +107,11 @@ st_crs(moo) # Note that epsg 3297 is UTM 6S
 plot(moo)
 ggplot() + geom_sf(data = moo)
 
+## .... Vector data: points ----
+fieldSites_sf
+str(fieldSites_sf)
 
-## > Vector data: points ----
-mcr_sf
-str(mcr_sf)
-
-## > Raster data ----
+## .... Raster data ----
 hill
 st_crs(hill)
 plot(hill)
@@ -95,19 +119,21 @@ hill_df = as.data.frame(hill, xy = T)
 head(hill_df)
 
 
-#### Tinkering with vector data ----
-## > Spatialize field data with left_join ----
+#### Part 3: Spatial data tinkering ----
+#### Part 3a: Working within data types ----
+## .... Vector data ----
+## .... Spatialize field data with left_join ----
 surveys = read_csv("data/surveys.csv")
-mcr_sf
+fieldSites_sf
 
 ## Note, sided joins will repeat the contents of the right data.frame
 ## for each row in the left data.frame where the "by" columns match
 surveys %>%
-  left_join(mcr_sf)
-mcr_sf %>%
+  left_join(fieldSites_sf)
+fieldSites_sf %>%
   right_join(surveys)
 ## Which one do we want?
-surveys_sf = mcr_sf %>%
+surveys_sf = fieldSites_sf %>%
   right_join(surveys)
 
 ## Let's plot it out
@@ -130,10 +156,9 @@ surveys_sf %>%
           aes(col = cots)) +
   scale_color_viridis_c()
 
-#### Tinkering with raster data ----
+## .... Raster data ----
 dem = rast("data/dem.tif")
 dem*2
-
 plot(dem)
 
 ?global
@@ -145,8 +170,36 @@ global(dem, fun = "max", na.rm = T)
 global(dem, fun = function(x){quantile(x,0.2,na.rm=T)})
 
 
-#### Putting it all together: Make a map! ----
-## > Discussion: what makes a good map? ----
+## Challenge: Do some raster math with the sst data
+## Can you convert the sst raster from Celcius to Farenheit?
+## Plot the result.
+## If you have time, find the minimum, maximum, and 
+## mean sea surface temperatures in the greater Moorea area
+
+
+#### Part 3b: Interoperability ----
+## Convert sf objects with vect() to work with rasters
+## Convert terra objects with as.data.frame() to work with ggplot
+## Always remember to pay attention to crs at this critical step
+
+
+# e.g. to pull out sst by site, we need to turn fieldSites_sf into a terra object
+st_crs(sst)
+st_crs(fieldSites_sf)
+fieldSites_vect = fieldSites_sf %>%
+  st_transform(crs = st_crs(sst)) %>%
+  vect()
+fieldSites_vect
+
+fieldSites_temps = terra::extract(x = sst,
+                                  y = fieldSites_vect)
+fieldSites_sf %>%
+  mutate(sst = fieldSites_temps$sst) %>%
+  ggplot() +
+  geom_point(aes(x = site, y = sst))
+
+#### Part 4: Putting it all together: Make a map! ----
+## .... Discussion: what makes a good map? ----
 
 ## Simple!!!
 ## Aesthetic
@@ -154,14 +207,25 @@ global(dem, fun = function(x){quantile(x,0.2,na.rm=T)})
 ## North arrow? Scale bar? Know thy audience
 
 
-## > Get everything into the same crs ----
+## .... Get everything into the same crs ----
 moo_latlon = moo %>%
   st_transform(st_crs(hill))
 
+sst_latlon = sst %>%
+  project(crs(hill), method = "bilinear")
+sst_latlon
+plot(sst_latlon)
+sst_latlon_df = sst_latlon %>%
+  as.data.frame(xy = T) %>%
+  tibble()
 
-## > Let people loose! ----
+## .... Let people loose! ----
 ## See what kinds of maps folks come up with
 ggplot() +
+  geom_raster(data = sst_latlon_df,
+              aes(x = x, y = y, fill = sst)) +
+  scale_fill_viridis_c(option="A") +
+  ggnewscale::new_scale_fill() +
   geom_raster(data = hill_df,
               aes(x = x, y = y, fill = hillshade),
               show.legend = FALSE) +
@@ -172,16 +236,19 @@ ggplot() +
           fill = "transparent",
           col = "grey60",
           linewidth = 0.5) +
-  geom_sf(data = mcr_sf) +
-  geom_label(data = mcr_sf %>% 
+  geom_sf(data = fieldSites_sf, col = "white") +
+  geom_label(data = fieldSites_sf %>% 
                mutate(x = st_coordinates(.)[,1],
-                      y = st_coordinates(.)[,2]),
+                      y = st_coordinates(.)[,2] - 0.0125),
              aes(x = x,
                  y = y,
-                 label = site)) +
+                 label = site),
+             col = "white",
+             fill = "transparent") +
   theme_void()
 
-
+## Discussion: What do we learn from the data by plotting everything together?
+## How could we improve these maps?
 
 #### Conclusion ----
 ## What would you like to see out of future spatial workshops? 
