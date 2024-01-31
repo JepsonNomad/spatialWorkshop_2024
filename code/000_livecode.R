@@ -63,4 +63,7 @@ mycrs = st_crs(hill)
 moo_lonlat = moo %>%
   st_transform(crs = mycrs)
 
+moo_lonlat
 
+ggplot() +
+  geom_sf(data = moo_lonlat)
