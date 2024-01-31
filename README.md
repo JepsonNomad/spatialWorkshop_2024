@@ -18,6 +18,7 @@ In this workshop, we will:
 ## Timeline (total 60 min):
 ### Intro (15 min)
 3 min get situated. Does everyone have packages installed?
+
 10 min slideshow on:
 - Spatial data
 - Raster vs vector
