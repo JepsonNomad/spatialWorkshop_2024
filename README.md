@@ -4,7 +4,7 @@ This is a home page for the January 2024 Pile Lab Spatial Bonanza! Consider usin
 
 [Follow along with the live code here](https://github.com/JepsonNomad/spatialWorkshop_2024/blob/main/code/000_livecode.R)
 
-"-----"
+-----
 
 ## Workshop goals:
 
@@ -15,7 +15,7 @@ In this workshop, we will:
 - Inspect spatial datasets
 - Plot spatial data (i.e. make a map!)
 
-"-----"
+-----
 
 ## Timeline (total 60 min):
 ### Intro (15 min)
