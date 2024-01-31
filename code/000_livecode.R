@@ -12,3 +12,7 @@ plot(moo)
 moo
 
 fieldSites_df = read_csv("data/fieldSiteLocations.csv")
+
+fieldSites_df %>%
+  st_as_sf(coords = c("x", "y"))
+
