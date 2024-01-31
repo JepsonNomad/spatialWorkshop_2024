@@ -68,6 +68,7 @@ st_crs(hill)
 ## via Google Earth Engine
 sst = rast("data/MODmed.tif")
 sst
+str(sst)
 plot(sst)
 st_crs(sst)
 # "EPSG",3297
