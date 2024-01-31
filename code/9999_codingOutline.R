@@ -230,7 +230,7 @@ fieldSites_sf %>%
 ## North arrow? Scale bar? Know thy audience
 
 
-## .... Get everything into the same crs ----
+## .... Step 1: Get everything into the same crs ----
 moo_latlon = moo %>%
   st_transform(st_crs(hill))
 
@@ -242,12 +242,14 @@ sst_latlon_df = sst_latlon %>%
   as.data.frame(xy = T) %>%
   tibble()
 
-## .... Let people loose! ----
+
+## .... Step 2: Be creative! ----
 ## See what kinds of maps folks come up with
 ggplot() +
   geom_raster(data = sst_latlon_df,
               aes(x = x, y = y, fill = sst)) +
-  scale_fill_viridis_c(option="A") +
+  scale_fill_viridis_c("Temp (C)",
+                       option="A") +
   ggnewscale::new_scale_fill() +
   geom_raster(data = hill_df,
               aes(x = x, y = y, fill = hillshade),
@@ -268,7 +270,11 @@ ggplot() +
                  label = site),
              col = "white",
              fill = "transparent") +
-  theme_void()
+  theme_void() +
+  theme(legend.position = c(0.86, 0.295),
+        legend.background = element_rect(fill = "grey99",
+                                         color = "grey99",
+                                         linewidth = 5))
 
 ## Discussion: What do we learn from the data by plotting everything together?
 ## How could we improve these maps?
