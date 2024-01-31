@@ -262,14 +262,14 @@ ggplot() +
           col = "grey60",
           linewidth = 0.5) +
   geom_sf(data = fieldSites_sf, col = "white") +
-  geom_label(data = fieldSites_sf %>% 
-               mutate(x = st_coordinates(.)[,1],
-                      y = st_coordinates(.)[,2] - 0.0125),
-             aes(x = x,
-                 y = y,
-                 label = site),
-             col = "white",
-             fill = "transparent") +
+  # geom_label(data = fieldSites_sf %>% 
+  #              mutate(x = st_coordinates(.)[,1],
+  #                     y = st_coordinates(.)[,2] - 0.0125),
+  #            aes(x = x,
+  #                y = y,
+  #                label = site),
+  #            col = "white",
+  #            fill = "transparent") +
   theme_void() +
   theme(legend.position = c(0.86, 0.295),
         legend.background = element_rect(fill = "grey99",
