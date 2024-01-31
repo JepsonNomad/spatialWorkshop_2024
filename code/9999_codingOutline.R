@@ -161,11 +161,13 @@ surveys_sf %>%
   scale_color_viridis_c()
 
 ## .... Raster data ----
+## First, some raster algebra
 dem
-dem*2
+dem*2 # Note, same resolution, extent, dimension. But VALUES changed
 plot(dem)
 plot(dem*2)
 
+## Next, generate summary statistics
 ?global
 # General summary values
 global(dem, fun = "min", na.rm = T)
@@ -173,10 +175,13 @@ global(dem, fun = "mean", na.rm = T)
 global(dem, fun = "max", na.rm = T)
 # or custom functions
 global(dem, fun = function(x){quantile(x,0.2,na.rm=T)})
-global(dem, fun = function(x){quantile(x,0.2,na.rm=T)})
+lowEls = global(dem, fun = function(x){sum(x<200,na.rm=T)})
+highEls = global(dem, fun = function(x){sum(x>=200,na.rm=T)})
+lowEls/(lowEls+highEls)
+## 61% of island is below 200m
 
 
-## Challenge: Do some raster math with the sst data
+## .... Challenge: Raster math with the sst data ----
 ## Can you convert the sst raster from Celcius to Farenheit?
 ## Plot the result.
 ## If you have time, find the minimum, maximum, and 
@@ -187,7 +192,6 @@ global(dem, fun = function(x){quantile(x,0.2,na.rm=T)})
 ## Convert sf objects with vect() to work with rasters
 ## Convert terra objects with as.data.frame() to work with ggplot
 ## Always remember to pay attention to crs at this critical step
-
 
 # e.g. to pull out sst by site, we need to turn fieldSites_sf into a terra object
 st_crs(sst)
