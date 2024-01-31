@@ -63,15 +63,18 @@ plot(hill)
 st_crs(hill)
 # "EPSG",4326
 
-## Median sea surface temperature from first 90 
-## days across years 2015-2020 from MODIS Aqua
-## via Google Earth Engine
+dem = rast("data/dem.tif")
+
+
+## Median sea surface temperature Jan-Mar, 2015-2020 inclusive 
+## MODIS Aqua L3SMI from NASA Goddard via Google Earth Engine
 sst = rast("data/MODmed.tif")
 sst
 str(sst)
 plot(sst)
 st_crs(sst)
 # "EPSG",3297
+
 
 
 ## .... Vector data: Polygons ----
@@ -158,9 +161,10 @@ surveys_sf %>%
   scale_color_viridis_c()
 
 ## .... Raster data ----
-dem = rast("data/dem.tif")
+dem
 dem*2
 plot(dem)
+plot(dem*2)
 
 ?global
 # General summary values
@@ -168,6 +172,7 @@ global(dem, fun = "min", na.rm = T)
 global(dem, fun = "mean", na.rm = T)
 global(dem, fun = "max", na.rm = T)
 # or custom functions
+global(dem, fun = function(x){quantile(x,0.2,na.rm=T)})
 global(dem, fun = function(x){quantile(x,0.2,na.rm=T)})
 
 
