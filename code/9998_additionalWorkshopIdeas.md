@@ -2,3 +2,4 @@
 
 -"Crafting spatial data": A lesson on combining field data with GPS points; st operations
 -"Intermediate raster operations": A lesson on extracting data from rasters at particular GPS coordinates; combining multiple raster products, and visualizing multiple raster datasets in the same map
+-"Exploring spatial time series": Picking apart spatial data through time
