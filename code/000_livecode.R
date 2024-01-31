@@ -30,5 +30,27 @@ plot(hill)
 
 
 #### Wrangling ---
+surveys = read_csv("data/surveys.csv")
+surveys
+
+
+surveys_sf = fieldSites_sf %>%
+  left_join(surveys)
+
+ggplot() +
+  geom_sf(data = surveys_sf) +
+  geom_sf(data = moo)
+
+
+surveys_summary = surveys_sf %>%
+  group_by(site) %>%
+  summarize(mostCorals = max(bigcorals))
+surveys_summary
+
+ggplot() +
+  geom_sf(data = surveys_summary,
+          aes(col = mostCorals)) +
+  geom_sf(data = moo)
+
 
 
