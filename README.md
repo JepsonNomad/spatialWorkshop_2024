@@ -4,6 +4,7 @@ This is a home page for the January 2024 Pile Lab Spatial Bonanza! Consider usin
 
 [Follow along with the live code here](https://github.com/JepsonNomad/spatialWorkshop_2024/blob/main/code/000_livecode.R)
 
+"-----"
 
 ## Workshop goals:
 
@@ -14,6 +15,7 @@ In this workshop, we will:
 - Inspect spatial datasets
 - Plot spatial data (i.e. make a map!)
 
+"-----"
 
 ## Timeline (total 60 min):
 ### Intro (15 min)
@@ -30,13 +32,11 @@ In this workshop, we will:
 ### Import data (5 min)
 `terra::rast()` and `sf::read_sf()`... sometimes additional import functions such as in `rnaturalearth::ne_countries()`.
 
-
 ### Inspect data structure; iterative process (10 min)
 #### Explore data structure
 `str()`, `print()`, `st_crs()`
 #### Plot data 
 Combining with the tidyverse and `ggplot()`, can do this with pipes if we're feeling up to it. Remember to ask: Do the reference systems of the two objects correspond?
-
 
 ### Tinkering with datasets (20 min)
 Vector data:
@@ -51,6 +51,6 @@ Raster data:
 
 ### Combine different data types (map) (10 min)
 - `st_transform()` - recall the CRS discrepancy earlier!
-- `ggplot()` to lay the base
-- including theme_void()
-- combining calls to `geom_sf()` and `geom_raster()`
+- Use `ggplot()` to lay the base
+- Combine calls to `geom_sf()` and `geom_raster()`
+- Consider experimenting with `ggplot2::theme_*()`
