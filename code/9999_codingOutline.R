@@ -166,6 +166,7 @@ surveys_sf %>%
   scale_color_viridis_c()
 
 
+
 ## .... Raster data ----
 ## First, some raster algebra
 dem
@@ -183,9 +184,9 @@ global(dem, fun = "max", na.rm = T)
 
 ## Skippable! Skip/
 # Can also make custom functions
-global(dem, fun = function(x){quantile(x,0.2,na.rm=T)})
-lowEls = global(dem, fun = function(x){sum(x<200,na.rm=T)})
-highEls = global(dem, fun = function(x){sum(x>=200,na.rm=T)})
+global(dem, function(x){quantile(x,0.2,na.rm=T)})
+lowEls = global(dem, function(x){sum(x<200,na.rm=T)})
+highEls = global(dem, function(x){sum(x>=200,na.rm=T)})
 lowEls/(lowEls+highEls)
 ## 61% of island is below 200m
 
