@@ -66,4 +66,21 @@ moo_lonlat = moo %>%
 moo_lonlat
 
 ggplot() +
-  geom_sf(data = moo_lonlat)
+  geom_sf(data = moo_lonlat) +
+  geom_raster(data = hill_df,
+              aes(x = x,
+                  y = y,
+                  fill = hillshade)) +
+  geom_sf(data = moo_lonlat,
+          fill = "transparent",
+          lwd = 1,
+          col = "grey60") +
+  geom_sf(data = surveys_summary,
+          size = 2,
+          col = "black") +
+geom_sf(data = surveys_summary,
+        aes(col = mostCorals)) +
+  scale_color_viridis_c()
+surveys_summary
+
+
