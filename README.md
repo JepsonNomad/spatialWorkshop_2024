@@ -3,6 +3,7 @@
 This is a home page for the January 2024 Pile Lab Spatial Bonanza! Consider using the directory structure of this workshop folder to keep track of your data and code. I'd recommend using R Studio and making an R project. Please note: you will need recent installations of `sf`, `terra`, and `tidyverse`.
 
 [Intro workshop live code](https://github.com/JepsonNomad/spatialWorkshop_2024/blob/main/code/000_livecode_intro.R)
+
 [Raster workshop live code](https://github.com/JepsonNomad/spatialWorkshop_2024/blob/main/code/001_livecode_rasters.R)
 
 -----
