@@ -1,15 +1,16 @@
+#### Load packages ----
 library(terra)
 library(sf)
 library(tidyverse)
 
 #### Import data ----
 fp = rnaturalearth::ne_countries(scale = 10, returnclass = "sf",
-                                 country = "French Polynesia")## %>%
-# st_make_valid() %>%
-# st_crop(ROIsf)
+                                 country = "French Polynesia")
+st_write(fp, dsn = "data/FrenchPoly.shp")
+fp = read_sf("data/FrenchPoly.shp")
 plot(fp[1])
 
-## Consider creating a custom extent
+## Consider creating a custom extent so we don't need rnaturalearth
 ROI = c(-155,-135,-28,-8)
 ROI
 
@@ -55,7 +56,7 @@ ggplot() +
   xlab("") + ylab("")
 
 
-#### Working with rasters ----
+#### Some raster manipulations ----
 SST = rast("data/SST_2019.tif")
 SST
 SST_rcl = classify(SST, rcl = matrix(data = c(0,2900,0),
@@ -74,6 +75,15 @@ plot(SST_rcl2[[1]])
 SST_sum = app(SST_rcl2, sum)
 plot(SST_sum)
 
+## If time, show rolling sum to generate a DHW https://cran.r-project.org/web/packages/RcppRoll/index.html
+SST_forDHW = classify(SST, rcl = matrix(data = c(0,2900,NA),
+                                        ncol = 3,
+                                        byrow = T))
+SST_forDHW = (SST_forDHW - 2900)/100
+plot(SST_forDHW[[100]])
+DHW = app(SST_forDHW, RcppRoll::roll_sum, n = 12*7, na.rm = T)
+plot(DHW[[19]])
+
 #### Reprojecting rasters ----
 ## Bilinear interpolation viz
 ## https://en.wikipedia.org/wiki/Bilinear_interpolation#/media/File:Bilinear_interpolation_visualisation.svg
@@ -82,17 +92,12 @@ crsOptions
 crsLongList = rep(crsOptions,10)
 crsLongList
 
-crs(tc)
-tc2 = project(tc, crsOptions[2])
-tc3 = project(tc2, crsOptions[1])
-plot(tc)
-plot(tc2)
-plot(tc3)
-plot(tc2)
-tc4 = crop(tc3, tc)
-plot(tc)
-plot(tc4)
+## First, a discussion of projections
+## Specifically discuss *what* UTM's are
+plot(t1)
+plot(project(t1, crsOptions[2]))
 
+## Next, demonstrate "unexpected" outcome of resampling a lot
 tcTester = tc
 for(i in 1:11){
   tcTester = project(tcTester,crsLongList[i])
