@@ -94,7 +94,7 @@ extract(sst,fieldSites_vect)
 
 sst_apr = sst[[92:121]]
 sst_apr
-
+?extract
 extracted_apr = extract(sst_apr, fieldSites_vect)
 extracted_apr
 
@@ -119,3 +119,17 @@ ggplot() +
   geom_sf(data = moo_lonlat)
 
 
+?crop
+cropROI = moo_buff %>%
+  st_transform(st_crs(sst)) %>%
+  ext()
+
+
+sst_focused = terra::crop(sst[[100]],
+                          cropROI,
+                          extend=T)
+plot(sst_focused)
+lines(moo_lonlat)
+points(fieldSites_vect)
+
+sst_focused_df = as.data.frame(sst_focused, xy = T)
