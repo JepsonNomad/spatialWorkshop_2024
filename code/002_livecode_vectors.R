@@ -101,6 +101,21 @@ extracted_apr
 
 extracted_apr_long = extracted_apr %>%
   pivot_longer(-ID, names_to = "name") %>%
-  mutate()
+  mutate(date = as.Date(name))
 
-extracted_apr_long
+extracted_apr_long %>%
+  ggplot() +
+  geom_line(aes(x = date, y = value, group = ID, col = ID)) +
+  geom_jitter(aes(x = date, y = value, group = ID, col = ID))
+
+sst_df = as.data.frame(sst[[100]], xy= T)
+sst_df %>% tibble()
+
+## backtick
+ggplot() +
+  geom_raster(data = sst_df,
+              aes(x = x, y = y,
+                  fill = `2019-04-10`)) +
+  geom_sf(data = moo_lonlat)
+
+
