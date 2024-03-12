@@ -19,6 +19,16 @@ fieldSites_sf <- fieldSites_df %>%
   st_transform(crs = st_crs(moo))
 fieldSites_sf
 
+
+#### Tangent ----
+fieldSites_sf
+### For getting just the df
+st_drop_geometry(fieldSites_sf)
+### Can be useful for grabbing coords
+st_coordinates(fieldSites_sf)
+
+
+
 #### Visualize ----
 ggplot() +
   geom_sf(data = moo) +
@@ -49,4 +59,28 @@ sst = rast("data/SST_2019.tif")
 sst
 
 moo_lonlat = moo %>%
-  st_trans
+  st_transform(st_crs(sst))
+moo_lonlat
+
+fieldSites_lonlat = fieldSites_sf %>%
+  st_transform(st_crs(sst))
+fieldSites_lonlat
+
+sst
+sst[[100]]
+
+fieldSites_lonlat
+fieldSites_vect = vect(fieldSites_lonlat)
+fieldSites_vect
+
+?extract
+extract(sst[[100]], fieldSites_vect)
+plot(sst[[100]])
+
+plot(crop(sst[[100]], ext(fieldSites_vect)))
+lines(moo_lonlat)
+
+fieldSites_vect
+temp_ext = extract(sst[[100]], fieldSites_vect)
+temp_ext
+
