@@ -133,3 +133,14 @@ lines(moo_lonlat)
 points(fieldSites_vect)
 
 sst_focused_df = as.data.frame(sst_focused, xy = T)
+ggplot() +
+  geom_raster(data = sst_focused_df,
+              aes(x = x,
+                  y = y,
+                  fill = `2019-04-10`)) +
+  geom_sf(data = moo_lonlat) +
+  geom_sf(data = fieldSites_lonlat,
+          aes(color = site)) +
+  scale_fill_viridis_c("temp", option = "magma", direction = -1) +
+  scale_color_manual("Site", values = 2:7)
+
