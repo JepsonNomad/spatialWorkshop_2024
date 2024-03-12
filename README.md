@@ -6,6 +6,8 @@ This is a home page for the January 2024 Pile Lab Spatial Bonanza! Consider usin
 
 [Raster workshop live code](https://github.com/JepsonNomad/spatialWorkshop_2024/blob/main/code/001_livecode_rasters.R)
 
+[Vector workshop live code](https://github.com/JepsonNomad/spatialWorkshop_2024/blob/main/code/002_livecode_vectors.R)
+
 -----
 
 ## Workshop goals:
