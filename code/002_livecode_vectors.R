@@ -1,0 +1,52 @@
+#### Load packages ----
+library(tidyverse)
+library(sf)
+library(terra)
+
+#### Load data ----
+moo = read_sf("data/moorea_outline.shp")
+fieldSites_df = read_csv("data/fieldSiteLocations.csv")
+
+moo
+moo$geometry
+plot(moo[1])
+
+#### Make me spatial!
+fieldSites_df
+fieldSites_sf <- fieldSites_df %>%
+  st_as_sf(coords = c("x","y"),
+           crs = 4326) %>%
+  st_transform(crs = st_crs(moo))
+fieldSites_sf
+
+#### Visualize ----
+ggplot() +
+  geom_sf(data = moo) +
+  geom_sf(data = fieldSites_sf,
+          aes(col = site))
+
+?st_distance()
+
+#### Measure distance from coast using st_distance
+fieldSites_sf$distFromCoast = st_distance(fieldSites_sf, moo)
+fieldSites_sf
+#### Apparently this works too:
+st_distance(moo, fieldSites_sf)
+
+units::set_units(st_area(moo), km^2)
+
+
+#### Buffering
+moo_buff = moo %>%
+  st_buffer(dist = 5000)
+
+ggplot() +
+  geom_sf(data = moo_buff) +
+  geom_sf(data = moo)
+
+#### Import rast
+sst = rast("data/SST_2019.tif")
+sst
+
+moo_lonlat = moo %>%
+  st_trans
