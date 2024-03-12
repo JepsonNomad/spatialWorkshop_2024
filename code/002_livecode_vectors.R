@@ -84,3 +84,8 @@ fieldSites_vect
 temp_ext = extract(sst[[100]], fieldSites_vect)
 temp_ext
 
+fieldSites_sf$temp = temp_ext$`2019-04-10`
+fieldSites_sf
+points(fieldSites_lonlat)
+
+
