@@ -89,3 +89,18 @@ fieldSites_sf
 points(fieldSites_lonlat)
 
 
+extract(sst,fieldSites_vect)
+
+
+sst_apr = sst[[92:121]]
+sst_apr
+
+extracted_apr = extract(sst_apr, fieldSites_vect)
+extracted_apr
+
+
+extracted_apr_long = extracted_apr %>%
+  pivot_longer(-ID, names_to = "name") %>%
+  mutate()
+
+extracted_apr_long
